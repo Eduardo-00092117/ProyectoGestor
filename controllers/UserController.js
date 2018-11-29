@@ -38,9 +38,9 @@ AuthController.formContra = function (req, res, next) {
 AuthController.store = async function (req, res) {
     //obteniendo los datos del usuario
     var capacidad1;
-    if(req.body.group1 == 'Normal'){
+    if (req.body.group1 == 'Normal') {
         capacidad1 = 10;
-    } else if(req.body.group1 == 'Premium'){
+    } else if (req.body.group1 == 'Premium') {
         capacidad1 = 50;
     }
     let user = {
@@ -54,7 +54,8 @@ AuthController.store = async function (req, res) {
         fechaVencimiento: req.body.fechaT,
         tipoPago: req.body.group2,
         capacidad: capacidad1,
-        ruta: `./almacenamiento/${req.body.email}/`
+        ruta: `./almacenamiento/${req.body.email}/`,
+        tipoUsuario: 'Normal'
     }
     var email = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i;
     if (req.body.pass != req.body.pass2) {
@@ -81,10 +82,10 @@ AuthController.store = async function (req, res) {
                 return res.render('signup', { err: error, correo: user.correo });
             else {
                 fs.mkdirSync(user.correo);
-                fs.rename(`./${user.correo}`, `./almacenamiento/${user.correo}`, function(err){
-                    if(err){
+                fs.rename(`./${user.correo}`, `./almacenamiento/${user.correo}`, function (err) {
+                    if (err) {
                         console.log(err);
-                    }else{
+                    } else {
                         console.log("listo");
                     }
                 });
@@ -101,9 +102,10 @@ AuthController.store = async function (req, res) {
                     fechaVencimiento: user.fechaVencimiento,
                     tipoPago: user.tipoP,
                     capacidad: user.capacidad,
-                    ruta: user.ruta
+                    ruta: user.ruta,
+                    tipoUsuario: user.tipoUsuario
                 }
-                
+
                 //hash es el mé que nos permite encriptar el password
                 //con 10 le indicamos cuantas veces realizara la encriptación
                 bcrypt.hash(data.idUsuario, 10, function (err, hash) {
@@ -114,7 +116,6 @@ AuthController.store = async function (req, res) {
                     data.idUsuario = hash; // almacenamos la password encriptada
                     //parseamos el objeto json a cadena y lo alamcenamos en la variable session
                     req.session.user = JSON.stringify(data);
-                    console.log(req.session.user);
                     //nos dirigira a la pagina donde se encuentra el perfil del usuario
                     return res.redirect('/drive/inicioNormal');
                 });
@@ -139,15 +140,17 @@ AuthController.signin = function (req, res, next) {
                 error: 'El usuario o contraseña son incorrectas!!',
                 pagina: '/'
             }
-            //parseamos el objeto json a cadena y lo alamcenamos en la variable session
+            //parseamos el objeto json a cadena y lo almacenamos en la variable session
             req.session.user = JSON.stringify(dato1);
             return res.render('error');
         }
         else {
-            data.idUsuario = user._id.toString(),
+                data.idUsuario = user._id.toString(),
                 data.correo = user.correo,
-                data.pass = user.pass
-
+                data.pass = user.pass,
+                data.nombre = user.nombres,
+                data.apellido = user.apellidos
+            
             //este método nos encriptara el userId para que sea alamcenado en la sesion
             bcrypt.hash(data.idUsuario, 10, function (err, hash) {
                 if (err) {
@@ -156,8 +159,6 @@ AuthController.signin = function (req, res, next) {
                 data.idUsuario = hash;
                 //parseamos el objeto a cadena
                 req.session.user = JSON.stringify(data);
-                //si es correcto nos dirigira al perfil del usuario que esta ingresando.
-                console.log(data.correo);
                 return res.redirect('/drive/inicioNormal');
             });
 

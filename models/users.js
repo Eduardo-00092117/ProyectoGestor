@@ -14,7 +14,8 @@ const UserSchema = new Schema({
     fechaVencimiento: { type: Date },
     tipoPago: { type: String },
     capacidad: {type: Number, required: true},
-    ruta: {type: String, required: true}
+    ruta: {type: String, required: true},
+    tipoUsuario: {type: String, required: true}
 });
 
 UserSchema.statics.authenticate = function (email, password, callback) {

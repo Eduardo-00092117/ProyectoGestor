@@ -13,15 +13,8 @@ block content
       ul(style='font-size: 1.25em')
         li
           p #{JSON.parse(session.user).error}
-        li
-          p#url(style='display: none') #{JSON.parse(session.user).pagina}
-      a.waves-effect.waves-light.btn( onClick='mostrar()' style='background-color: #071e3d; margin-top: 1em') Volver
+      a.waves-effect.waves-light.btn(href=JSON.parse(session.user).pagina, onClick='mostrar()' style='background-color: #071e3d; margin-top: 1em') Volver
     br
     br
     .col
       img(src='../img/errorc.png' alt='error' style='width: 36em')
-  script.
-    function mostrar(){
-      var text = document.getElementById("url") 
-      location.href ="/drive/" + text.textContent;
-    }

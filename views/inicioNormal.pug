@@ -26,47 +26,49 @@ block content
       .center-align
         i.large.material-icons account_circle
       br
-      .row
-        .col.s12.l6
-          .input-field.col.s12
-            i.material-icons.prefix account_circle
-            input#email.validate(type='email', value='', name='name')
-            label(for='email') Nombre
-          .input-field.col.s12
-            i.material-icons.prefix account_circle
-            input#email.validate(type='email', value='', name='last')
-            label(for='email') Apellidos
-          .input-field.col.s12
-            i.material-icons.prefix email
-            input#email.validate(type='email', value='', name='email')
-            label(for='email') Correo
-        .col.s12.l6
-          #tarjeta
+      form(action="#", method="post")
+        .row
+          .col.s12.l6
             .input-field.col.s12
-              i.material-icons.prefix assignment
-              input#num1.validate(type='text', value='', name='')
-              label(for='num1') Numero de tarjeta de credito
-            .input-field.col.s12.m6
-              i.material-icons.prefix lock
-              input#num2.validate(type='text', value='', name='')
-              label(for='num2') Cod. Seguridad
-            .input-field.col.s12.m6
-              i.material-icons.prefix date_range
-              input#num3.datepicker(type='text', value='', name='')
-              label(for='num3') Vencimiento
-            p Pagos
-            p.col.s12.m6
-              label
-                input(name='group2', type='radio', value='Semestral')
-                span Semestral
-            p.col.s12.m6
-              label
-                input(name='group2', type='radio', value='Anual')
-                span Anual
-          img#i-registrar.i-paralax(src='../img/perfil.jpg')
+              i.material-icons.prefix account_circle
+              input#email.validate(type='text', value=JSON.parse(session.user).nombre, name='name')
+              label(for='name') Nombre
+            .input-field.col.s12
+              i.material-icons.prefix account_circle
+              input#email.validate(type='text', value=JSON.parse(session.user).apellido, name='last')
+              label(for='last') Apellidos
+            .input-field.col.s12
+              i.material-icons.prefix email
+              input#email.validate(type='email', value=JSON.parse(session.user).correo, name='email')
+              label(for='email') Correo
+          .col.s12.l6
+            #tarjeta
+              .input-field.col.s12
+                i.material-icons.prefix assignment
+                input#num1.validate(type='text', value='', name='')
+                label(for='num1') Numero de tarjeta de credito
+              .input-field.col.s12.m6
+                i.material-icons.prefix lock
+                input#num2.validate(type='text', value='', name='')
+                label(for='num2') Cod. Seguridad
+              .input-field.col.s12.m6
+                i.material-icons.prefix date_range
+                input#num3.datepicker(type='text', value='', name='')
+                label(for='num3') Vencimiento
+              p Pagos
+              p.col.s12.m6
+                label
+                  input(name='group2', type='radio', value='Semestral')
+                  span Semestral
+              p.col.s12.m6
+                label
+                  input(name='group2', type='radio', value='Anual')
+                  span Anual
+            img#i-registrar.i-paralax(src='../img/perfil.jpg')
+        input.waves-effect.waves-light.btn.btn-size(type='submit' value='Actualizar')  
     .modal-footer
-      a.modal-close.waves-effect.waves-green.btn-flat(href='#!') Aceptar
-      a.modal-close.waves-effect.waves-green.btn-flat(href='#!') Cancelar
+      input.modal-close.waves-effect.waves-green.btn-flat(type='submit', value='Aceptar')
+      input.modal-close.waves-effect.waves-green.btn-flat(type='submit', value='Cancelar')
 
   ul#mobile-demo.sidenav
     li
@@ -89,7 +91,7 @@ block content
     li
       a(href='#!') Papelera
     li.divider
-  form(action='/almacenamiento', method="POST", enctype="multipart/form-data")
+  form.form(action='/almacenamiento', method="POST", enctype="multipart/form-data")
     .row
       .input-field.col.s12.m5
         i.material-icons.prefix perm_media

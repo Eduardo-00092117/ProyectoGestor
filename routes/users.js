@@ -33,6 +33,31 @@ router.get('/logout',AuthController.logout);
 router.use(AuthMiddleware.isAuthentication);
 //ruta para acceder al perifl
 router.get('/inicioNormal',AuthController.profile);
+
+router.put('/modificar/:id', function(req,res){
+    if (req.params.id) {
+        User.findByIdAndUpdate(req.params.id,{
+          nombres: req.body.name,
+          apellidos: req.body.last,
+          correo: req.body.email
+        },function(err,updated){
+            if (err){
+                res.json({
+                    status: 500,
+                    success: false,
+                    errs
+                });
+            } else{
+                res.json({
+                    status: 200,
+                    success: true,
+                    updated
+                })
+            }
+        });
+    }
+});
+
 //Imagenes
 router.route("/imagenes").get(function(req,res){
     Imagen.find({creator:res.locals.user_id},function(err,imagenes){
