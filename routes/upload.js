@@ -18,6 +18,7 @@ router.post("/inicioNormal", (req, res, next)=>{
                 let file = new File();
                 file.file = req.file.filename;
                 file.tipoArchivo = req.file.filename.split('.').pop();
+                file.dueño = JSON.parse(req.session.user).correo;
                 file.save(()=>{
                     if(err){
                         console.log(err);

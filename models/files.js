@@ -6,6 +6,7 @@ let filesSchema = mongoose.Schema({
         required: true,   
     },
     tipoArchivo : String,
+    dueño: String
 });
 
 let File = module.exports= mongoose.model("File", filesSchema);
