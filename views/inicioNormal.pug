@@ -26,7 +26,7 @@ block content
       .center-align
         i.large.material-icons account_circle
       br
-      form(action="#", method="post")
+      form(action="#", method="post", name='frmUpdate')
         .row
           .col.s12.l6
             .input-field.col.s12
@@ -91,7 +91,7 @@ block content
     li
       a(href='#!') Papelera
     li.divider
-  form.form(action='/almacenamiento', method="POST", enctype="multipart/form-data")
+  form.form(action='/drive/inicioNormal', method="POST", enctype="multipart/form-data")
     .row
       .input-field.col.s12.m5
         i.material-icons.prefix perm_media
@@ -106,13 +106,11 @@ block content
         .file-field.input-field
           .btn
             span File
-            input(type='file', name="archivo", id="archivo")  
+            input(type='file', name="file", id="file")
           .file-path-wrapper
             input.file-path.validate(type='text', placeholder='Upload one or more files')
       .input-field.col.s12.m5
-        a.waves-effect.waves-light.btn.btn-color
-          i.material-icons.left add
-          | Subir
+        input.waves-effect.waves-light.btn.btn-color(type='submit', value='Subir')
 
   section.row
     table

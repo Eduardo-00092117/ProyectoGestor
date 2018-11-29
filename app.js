@@ -14,6 +14,7 @@ const MongoStore = require('connect-mongo')(session);
 //Credenciales de nuestra base de datos
 const { mongodb } = require('./configs/keys');
 
+var uploadRouter = require('./routes/upload');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -54,6 +55,7 @@ app.use((req, res, next) => {
 });
 
 //routes
+app.use('/drive/', uploadRouter)
 app.use('/', indexRouter); // ruta para el index
 app.use('/drive/', usersRouter); // rutas para los usuarios
 
