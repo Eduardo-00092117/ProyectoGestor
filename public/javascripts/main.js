@@ -1,58 +1,25 @@
-let app = {
-    init: function () {
-        this.addEvents();
-    },
-    addEvents: function () {
-        let loadContent = function () {
-            fetch("/materia")
-                .then(res => res.json())
-                .then(data => {
-                    let materias = document.getElementsByClassName("materias")[0];
-
-                    materias.innerHTML = data.reduce((cadena, element) => {
-                        return cadena +
-                            ` <tr>
-                                <td class="name">${element.nombre}</td>
-                                <td class="uv">${element.uv}</td>
-                                <td class="options"> 
-                                    <a class="more" href=""> More</a>
-                                    <a class="edit" href=""> Edit </a>
-                                    <a class="delete" href=""> Delete </a>
-                                </td>
-                            </tr>`
-                    }, "");
-
-                    document.querySelectorAll(".more").forEach(element => {
-                        element.addEventListener('click', function (evnt) {
-                            evnt.preventDefault();
-                            let name = this.parentElement // td
-                                .parentElement // tr
-                                .getElementsByClassName("name")[0]
-                                .innerText;
-                            fetch('/materia/' + name)
-                                .then(res => res.json())
-                                .then(function (data) {
-                                    console.log(data);
-                                });
-                        });
-                    });
-                });
-        }
-        let form = document.forms.saveMateria;
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            fetch(form.action, {
-                    method: 'POST',
-                    body: new URLSearchParams(new FormData(form))
-                }).then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    loadContent();
-                });
-        });
-
-        loadContent();
+//formulario para actualizar
+document.forms.frmUpdate.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let data = {
+        nombres: document.forms.formUpdate.userU.value,
+        apellidos: document.forms.formUpdate.rolU.value,
+        correo: document.forms.formUpdate.rolU.value
     }
-};
-window.onload = () => app.init();
+    //peticion
+    fetch('/users/' + document.forms.formUpdate._id.value, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(response => {
+            alert("Tarea Actualizada con exito");
+            tareas();
+        })
+        .catch(err => {
+            alert("Por favor revise los datos ingresados");
+            console.log(err);
+        });
+});
