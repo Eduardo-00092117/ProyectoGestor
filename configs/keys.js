@@ -2,6 +2,6 @@
 module.exports = {
     mongodb:
     {
-        URI: 'mongodb://localhost:27017/drives' //Nombre de la base de datos.
+        URI: 'mongodb://localhost:27017/drive' //Nombre de la base de datos.
     }
 }

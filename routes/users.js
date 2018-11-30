@@ -34,27 +34,19 @@ router.use(AuthMiddleware.isAuthentication);
 //ruta para acceder al perifl
 router.get('/inicioNormal',AuthController.profile);
 
-router.put('/modificar/:id', function(req,res){
-    if (req.params.id) {
-        User.findByIdAndUpdate(req.params.id,{
-          nombres: req.body.name,
-          apellidos: req.body.last,
-          correo: req.body.email
-        },function(err,updated){
-            if (err){
-                res.json({
-                    status: 500,
-                    success: false,
-                    errs
-                });
-            } else{
-                res.json({
-                    status: 200,
-                    success: true,
-                    updated
-                })
-            }
-        });
+router.put('/:id', async function (req, res) {
+    let { id } = req.params;
+    let user = {
+        nombres: req.body.nombres,
+        apellidos: req.body.apellidos
+    }
+    console.log(user);
+    try {
+        await User.update({ _id: id }, user);
+        res.status(200).json({ "message": "Usuario actualizado con exito" });
+    }
+    catch (err) {
+        return res.status(500).json({ err: err, message: "Por favor revise sus datos" });
     }
 });
 

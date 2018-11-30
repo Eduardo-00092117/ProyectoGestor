@@ -37,6 +37,7 @@ AuthController.formContra = function (req, res, next) {
 /*Para crear el usuario*/
 AuthController.store = async function (req, res) {
     //obteniendo los datos del usuario
+    var data = {};
     var capacidad1;
     if (req.body.group1 == 'Normal') {
         capacidad1 = 10;
@@ -89,36 +90,14 @@ AuthController.store = async function (req, res) {
                         console.log("listo");
                     }
                 });
-                //Almacenamos los datos de la consulta en el objeto data
-                let data = {
-                    idUsuario: user._id.toString(),
-                    nombres: user.nombres,
-                    apellidos: user.apellidos,
-                    correo: user.correo,
-                    pass: user.pass,
-                    tipo: user.tipo,
-                    numTarjeta: user.numTarjeta,
-                    codSeguridad: user.codSeguridad,
-                    fechaVencimiento: user.fechaVencimiento,
-                    tipoPago: user.tipoP,
-                    capacidad: user.capacidad,
-                    ruta: user.ruta,
-                    tipoUsuario: user.tipoUsuario
-                }
-
-                //hash es el mé que nos permite encriptar el password
-                //con 10 le indicamos cuantas veces realizara la encriptación
-                bcrypt.hash(data.idUsuario, 10, function (err, hash) {
-                    if (err) { //si produce un error
-                        next(err); // retornaremos el error
-                    }
-
-                    data.idUsuario = hash; // almacenamos la password encriptada
-                    //parseamos el objeto json a cadena y lo alamcenamos en la variable session
-                    req.session.user = JSON.stringify(data);
-                    //nos dirigira a la pagina donde se encuentra el perfil del usuario
-                    return res.redirect('/drive/inicioNormal');
-                });
+                data.idUsuario = user._id.toString(),
+                data.correo = user.correo,
+                data.pass = user.pass,
+                data.nombre = user.nombres,
+                data.apellido = user.apellidos
+            
+                req.session.user = JSON.stringify(data);
+                return res.redirect('/drive/inicioNormal');
             }
         })
     }
@@ -150,17 +129,9 @@ AuthController.signin = function (req, res, next) {
                 data.pass = user.pass,
                 data.nombre = user.nombres,
                 data.apellido = user.apellidos
-            
-            //este método nos encriptara el userId para que sea alamcenado en la sesion
-            bcrypt.hash(data.idUsuario, 10, function (err, hash) {
-                if (err) {
-                    next(err);
-                }
-                data.idUsuario = hash;
-                //parseamos el objeto a cadena
+
                 req.session.user = JSON.stringify(data);
                 return res.redirect('/drive/inicioNormal');
-            });
 
         }
     });
