@@ -120,6 +120,16 @@ block content
           th Nombre
           th Extension
           th Tama&ntilde;o
+        each i in files 
+          tr  
+            th 
+              img(src='../almacenamiento/'+i.dueño+'/'+i.file, alt="Imagen", style='height: 5em; margin-left: 2em')
+            th #{i.tipoArchivo}
+            th #{i.size} MB
+            th
+              div 
+                p #{i.originalName}
+                a(href='../almacenamiento/'+i.dueño+'/'+i.file, download=i.originalName) Descargar
   script.
     document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.sidenav');

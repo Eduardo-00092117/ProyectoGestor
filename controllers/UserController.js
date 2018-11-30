@@ -55,7 +55,7 @@ AuthController.store = async function (req, res) {
         fechaVencimiento: req.body.fechaT,
         tipoPago: req.body.group2,
         capacidad: capacidad1,
-        ruta: `./almacenamiento/${req.body.email}/`,
+        ruta: `./public/almacenamiento/${req.body.email}/`,
         tipoUsuario: 'Normal'
     }
     var email = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i;
@@ -83,7 +83,7 @@ AuthController.store = async function (req, res) {
                 return res.render('signup', { err: error, correo: user.correo });
             else {
                 fs.mkdirSync(user.correo);
-                fs.rename(`./${user.correo}`, `./almacenamiento/${user.correo}`, function (err) {
+                fs.rename(`./${user.correo}`, `./public/almacenamiento/${user.correo}`, function (err) {
                     if (err) {
                         console.log(err);
                     } else {
